@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { login } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Khởi tạo navigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = await login(email, password);
-      console.log('Login successful:', data);
-      // Chuyển hướng đến dashboard hoặc xử lý logic khác
+      if(data.errCode === 0) {
+        console.log('Login successful:', data);
+        navigate('/dashboard'); 
+        
+      }else{
+        alert((data.message || ''));
+      }
     } catch (err) {
       console.error('Login failed:', err);
       setError('Invalid email or password');
