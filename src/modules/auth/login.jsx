@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../api/auth';
+import { login } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -14,7 +14,7 @@ function Login() {
       const data = await login(email, password);
       if(data.errCode === 0) {
         console.log('Login successful:', data);
-        navigate('/dashboard'); 
+        navigate('/getuser'); 
         
       }else{
         alert((data.message || ''));
@@ -37,6 +37,7 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 border rounded"
+            autoComplete="email"
           />
         </div>
         <div className="mt-4">
@@ -46,6 +47,7 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-2 border rounded"
+            autoComplete="current-password"
           />
         </div>
         <button type="submit" className="w-full mt-4 bg-blue-500 text-white py-2 rounded">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserMNG } from './UserMNG'; // Import UserMNG component
+import  UserMNG  from '../user/UserMNG'; // Import UserMNG component
 function Dashboard() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
