@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { login } from '../../api/auth';
+import { login } from '../../../api/auth';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../../../context/AuthContext';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // Khởi tạo navigate
-
+  const { login: loginToContext } = useAuth(); // Đổi tên hàm login từ context
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = await login(email, password);
       if(data.errCode === 0) {
         console.log('Login successful:', data);
-        navigate('/getuser'); 
+        loginToContext(data.user); // Lưu thông tin người dùng vào context
+        navigate('/'); 
         
       }else{
         alert((data.message || ''));

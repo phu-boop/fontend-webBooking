@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../../api/userService'; // Hàm gọi API để thêm người dùng
+import { createUser } from '../../../api/userService'; // Hàm gọi API để thêm người dùng
 
 function AddUser() {
   const [formData, setFormData] = useState({

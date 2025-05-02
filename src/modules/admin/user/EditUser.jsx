@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchUserById, updateUser } from '../../api/userService'; // Import API
+import { fetchUserById, updateUser } from '../../../api/userService'; // Import API
 
 function EditUser() {
   const { id } = useParams(); // Lấy ID người dùng từ URL

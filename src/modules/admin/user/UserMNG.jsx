@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUsers,deleteUser } from '../../api/userService'; // Import hàm gọi API
+import { fetchUsers,deleteUser } from '../../../api/userService'; // Import hàm gọi API
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 function UserMNG() {
   const [users, setUsers] = useState([]); // Khởi tạo state là mảng

@@ -1,2 +1,16 @@
 @import "tailwindcss";
 
+/* Định nghĩa biến màu trong :root */
+:root {
+  --primary-color: #003b95;    /* Màu chính (xanh dậm) */
+  --blue-btn: #006ce4; /* Màu xanh dương */
+}
+
+/* Tùy chỉnh container bằng biến */
+@layer components {
+    .container-main {
+      max-width: 1140px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
