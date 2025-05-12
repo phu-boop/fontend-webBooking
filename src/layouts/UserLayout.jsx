@@ -1,15 +1,18 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-function UserLayout({ children }) {
+
+const UserLayout = () => {
     return (
-        <>
-        < Header />
-            <main className="main-content">
-                {children}
+        <div>
+            <Header /> {/* Header xuất hiện trên tất cả các trang */}
+            <main>
+                <Outlet /> {/* Nội dung của từng trang sẽ được hiển thị ở đây */}
             </main>
-        < Footer />
-        </>
+            <Footer /> {/* Footer xuất hiện trên tất cả các trang */}
+        </div>
     );
-}
+};
+
 export default UserLayout;

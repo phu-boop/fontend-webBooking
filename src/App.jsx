@@ -1,11 +1,14 @@
-import AppRoutesAdmin from './routes/AdminRoutes';
-import AppRoutesUser from './routes/UserRoutes';
+import AppRoutesAdmin from "./routes/AdminRoutes";
+import AppRoutesUser from "./routes/UserRoutes";
+
 function App() {
   return (
-  <>
-    <AppRoutesAdmin />
-    <AppRoutesUser />
-  </>
+    <>
+      {/* Định tuyến cho phần quản trị 
+      <AppRoutesAdmin />*/}
+      {/* Định tuyến cho phần người dùng */}
+      <AppRoutesUser />
+    </>
   );
 }
 
