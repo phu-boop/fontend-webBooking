@@ -29,7 +29,7 @@ function Login() {
         try {
             const res = await login(email);
             if (res && res.errCode === 0) {
-                navigate("/VerifyEmail");
+                navigate("/VerifyEmail?email="+email);
             }
         }catch (error) {
             console.error("Error during login:", error);

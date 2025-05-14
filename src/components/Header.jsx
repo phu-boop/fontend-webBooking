@@ -21,7 +21,7 @@ const Header = () => {
                     <ul className="flex gap-2 items-center">
                         {!isLoginRegisterPage && (
                             <li className="h-full px-3 py-2">
-                                <Link to="/admin">USD</Link>
+                                <Link to="/Test">USD</Link>
                             </li>
                         )}
                         <li className="h-full px-3 py-2">
