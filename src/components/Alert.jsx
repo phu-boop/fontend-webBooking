@@ -42,7 +42,7 @@ function Alert({ type = 'info', message, onClose }) {
 
   return (
     <div
-      className={`h-10 flex items-center ${styles.bg} ${styles.border} ${styles.text} border-l-4 p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out`}
+      className={`h-10 flex items-center ${styles.bg} ${styles.border} ${styles.text} border-l-4 p-6 rounded-lg shadow-md transition-all duration-300 ease-in-out`}
       role="alert"
     >
       {/* Icon */}

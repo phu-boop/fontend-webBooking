@@ -1,12 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import { verify } from "../../../api/auth";
+import { login } from "../../../api/auth";
+import Alert from "../../../components/Alert";
 function VerifyEmail() {
+  const navigate = useNavigate();
   const [code, setCode] = useState(new Array(6).fill(""));
   const [activeInput, setActiveInput] = useState(0);
-  const inputRefs = useRef([]);
   const [button, setButton] = useState(false);
   const [countdown, setCountdown] = useState(60);
+  const [alert, setAlert] = useState(null);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get('email');
+  const inputRefs = useRef([]);
+
+  useEffect(() => {
+    if (!email) {
+      navigate("/login");
+    }
+  }, [email, navigate]);
+
   useEffect(() => {
     // Chỉ tạo interval nếu countdown > 0
     if (countdown > 0) {
@@ -42,11 +56,7 @@ function VerifyEmail() {
       setActiveInput(index - 1);
     }
   };
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const email = queryParams.get('email');
   const handleVerify = async () => {
-    alert("Mã OTP: " + code.join(""));
     // Gọi API verify ở đây
     try {
       const otp = code.join("");
@@ -55,16 +65,48 @@ function VerifyEmail() {
       const res = await verify(email , otp );
       console.log("res", res);
       if (res && res.errCode === 0) {
-        alert("Xác thực thành công");
-        // Chuyển hướng đến trang khác nếu cần
+        setAlert({
+          type: "success",
+          message: "Authentication successful",
+        });
+        // Xử lý khi xác thực thành công
       } else {
-        alert("Xác thực thất bại");
+        setAlert({
+          type: "warning",
+          message: "Authentication failed",
+        });
       }
     } catch (error) {
       console.error("Error during verify:", error);
-      alert("An error occurred during verify. Please try again.");
+      setAlert({
+            type: "error",
+            message: "The code is incorrect. Check it carefully and try again.",
+        });
     }
   };
+
+  const handleResend = async () => {
+    setCountdown(60);
+    setCode(new Array(6).fill(""));
+    setActiveInput(0);
+    setButton(false);
+    // Gọi API đăng nhập
+    try {
+        const res = await login(email);
+        if (res && res.errCode === 0) {
+            setAlert({
+            type: "info",
+            message: "The verification code has been re-sent to your email.",
+            });
+        }
+    }catch (error) {
+        console.error("Error during login:", error);
+        setAlert({
+            type: "error",
+            message: "An error occurred during sendding.",
+        });
+    }
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
@@ -75,7 +117,15 @@ function VerifyEmail() {
           <strong>{email}</strong>.<br />
           Please enter this code to continue.
         </p>
-
+        <div className="my-4">
+          {alert && (
+            <Alert
+              type={alert.type}
+              message={alert.message}
+              onClose={() => setAlert(null)}
+            />
+          )}
+        </div>
         <div className="flex justify-between gap-2 mb-6">
           {code.map((digit, idx) => (
             <input
@@ -99,18 +149,25 @@ function VerifyEmail() {
         >
           Verify email
         </button>
-
         <p className="text-sm text-gray-600 mt-4">
-          Didn’t receive an email? Please check your spam folder or request
-          another code in {countdown} seconds
+          Didn’t receive an email?{" "}
+          {countdown === 0 ? (
+            <button onClick={handleResend} className="text-blue-600 underline cursor-pointer">
+              <strong>Resend code</strong>
+            </button>
+          ) : (
+            `Please check your spam folder or request another code in ${countdown} seconds`
+          )}
         </p>
 
         <div className="mt-4">
-          <a href="#" className="text-blue-600 font-medium hover:underline">
-            Back to sign in
-          </a>
+          <Link
+              to="/login"
+              className="text-blue-600 font-medium hover:underline hover:text-blue-800 transition-colors duration-200"
+            >
+              Back to sign in
+          </Link>
         </div>
-
         <div className="text-xs text-gray-500 mt-8 text-center">
           By signing in or creating an account, you agree with our{" "}
           <a href="#" className="text-blue-600 hover:underline">
